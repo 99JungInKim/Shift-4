@@ -1,14 +1,45 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Test from '../components/TestPage.vue'
+import MainPage from '../components/MainPage.vue'
+import AboutUsPage from '../components/AboutUsPage.vue'
+import PortfolioPage from '../components/PortfolioPage.vue'
+import ServicesPage from '../components/ServicesPage.vue'
+import LogInPage from '../components/LogInPage.vue'
+import MyPage from '../components/MyPage.vue'
 
 Vue.use(VueRouter)
+
 const routes=[
     {
-        path:"/test",
-        name:"test",
-        component:Test
-    }
+        path:"/",
+        name:"MainPage",
+        component:MainPage
+    },
+    {
+        path:"/AboutUs",
+        name:"AboutUs",
+        component:AboutUsPage
+    },
+    {
+        path:"/Portfolio",
+        name:"PortfolioPage",
+        component:PortfolioPage
+    },
+    {
+        path:"/Services",
+        name:"ServicesPage",
+        component:ServicesPage
+    },
+    {
+        path:"/LogIn",
+        name:"LogInPage",
+        component:LogInPage
+    },
+    {
+        path:"/MyPage",
+        name:"MyPage",
+        component:MyPage
+    },
 ]
 const router = new VueRouter({
     mode:"history",
