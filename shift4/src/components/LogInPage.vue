@@ -16,12 +16,14 @@
         <div class="LogInPageSubmit" @click="doWork(isLogInMod)">{{ (isLogInMod) ? msg[0] : msg[1] }}</div>
       </div>
     </div>
+  {{$store.state.User}}
   </div>
 </template>
 
 <script>
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-// import {doc, getDoc} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import db from "@/main"
 
 export default {
   name: 'LogInPage',
@@ -34,7 +36,7 @@ export default {
       name: null,
       phone: null,
       msg: ["Log In", "Sign Up"],
-      db: {}
+      data: {}
     }
   },
   methods: {
@@ -46,10 +48,16 @@ export default {
       if (bool) {//LogIn
         alert("id : " + this.id + "\npw : " + this.pw)
         signInWithEmailAndPassword(auth, this.id, this.pw)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
               const loginUser = userCredential.user;
-              console.log("loginPage ", loginUser)
-              this.$store.state.User = loginUser;
+              // console.log("loginPage ", loginUser)
+              this.$store.commit('pushUser', loginUser);
+              /*TODO vuex 고쳐라 이년아 */
+              const snapShot = await getDocs(collection(db, "Member"));
+              console.log(snapShot)
+              snapShot.forEach((doc) => {
+                console.log(doc.data())
+              })
             })
             .catch((error) => {
               const errorCode = error.code;
