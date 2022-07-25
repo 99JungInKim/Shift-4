@@ -41,7 +41,7 @@ export default {
 }
 *{
   font-family: 'IBM Plex Sans KR', sans-serif;
-  margin : 0 auto;
+  margin : 0;
   padding : 0 auto;
 }
 nav{
