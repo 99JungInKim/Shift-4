@@ -8,10 +8,10 @@
         <div class="Right">
             <span>{{(isLogInMod)?msg[0]:msg[1]}}</span>
             <div class="inputArea">
-                <input type="text" name="id" placeholder=" ID">
-                <input type="password" name="pw" placeholder=" PW">
-                <input v-if="!isLogInMod" type="text" name="name" placeholder=" NAME">
-                <input v-if="!isLogInMod" type="number" name="phone" placeholder=" PHONE">
+                <input type="text" placeholder="ID" v-model="id">
+                <input type="password" placeholder="PW" v-model="pw">
+                <input v-if="!isLogInMod" type="text" placeholder="NAME" v-model="name">
+                <input v-if="!isLogInMod" type="number" placeholder="PHONE" v-model="phone">
             </div>
             <div class="LogInPageSubmit" @click="doWork(isLogInMod)">{{(isLogInMod)?msg[0]:msg[1]}}</div>
         </div>
@@ -40,10 +40,10 @@ export default {
     }, 
     doWork(bool){
         if(bool){//LogIn
-            alert("LogIn")
+            alert("id : "+this.id+"\npw : "+this.pw)
         }
         else{//SignUp
-            alert("SignUp")
+            alert("name : "+this.name+"\nphone : "+this.phone+"\nid : "+this.id+"\npw : "+this.pw)
         }
     }
   }
@@ -125,6 +125,7 @@ export default {
     margin-bottom: 15px;
     font-size: 20px;
     font-weight: 100;
+    padding-left: 15px;
 }
 .LogInPageSubmit{
     display: flex;
@@ -136,6 +137,8 @@ export default {
     color: var(--g1);
     background: var(--g5);
     border-radius: 10px;
+
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 .LogInPageSubmit:hover{
     background: var(--e);
