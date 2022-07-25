@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Created with Vectornator (http://vectornator.io/) -->
+<svg height="100%" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 1024 1024" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs/>
+<g id="레이어-1">
+<path d="M163.266 512C163.266 319.399 319.399 163.266 512 163.266C704.601 163.266 860.734 319.399 860.734 512C860.734 704.601 704.601 860.734 512 860.734C319.399 860.734 163.266 704.601 163.266 512Z" fill="#ffffff" fill-rule="evenodd" opacity="1" stroke="none"/>
+<path d="M512 237.812C429.157 237.812 362 304.97 362 387.812C362 465.281 420.73 528.993 496.094 536.938C393.328 545.677 307.43 639.73 275.438 768.125C337.606 825.574 420.677 860.75 512 860.75C603.323 860.75 686.394 825.574 748.562 768.125C716.57 639.73 630.672 545.677 527.906 536.938C603.27 528.992 662 465.281 662 387.812C662 304.97 594.843 237.812 512 237.812Z" fill="#191f28" fill-rule="evenodd" opacity="1" stroke="none"/>
+</g>
+</svg>
