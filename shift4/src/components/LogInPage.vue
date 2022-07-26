@@ -60,14 +60,14 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
+    align-items: center;
 }
 .Modal{
     display: flex;
     width: 800px;
     height: 500px;
-    background-color: red;
     border-radius: 20px;
     filter: 
     drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
@@ -76,6 +76,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 50%;
     height: 100%;
     border-radius: 20px 0 0 20px;
@@ -95,6 +96,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 50%;
     height: 100%;
     border-radius: 0 20px 20px 0;
