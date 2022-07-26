@@ -172,6 +172,9 @@ input{
     border-radius: 0.5vw;
     outline: none;
 }
+input:focus{
+    outline: none !important;
+}
 select{
     text-align: center;
     border: 0;

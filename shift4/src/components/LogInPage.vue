@@ -66,9 +66,9 @@ export default {
 }
 .Modal{
     display: flex;
-    width: 800px;
-    height: 500px;
-    border-radius: 20px;
+    width: 60vw;
+    height: 40vw;
+    border-radius: 1vw;
     filter: 
     drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
 }
@@ -79,18 +79,24 @@ export default {
     align-items: center;
     width: 50%;
     height: 100%;
-    border-radius: 20px 0 0 20px;
+    border-radius: 1vw 0 0 1vw;
     background-color: var(--e);
 }
 .Left img{
-    width: 70%;
+    width: 50%;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.Left img:hover{
+    filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.5));
 }
 .Left span{
     color : var(--w);
     font-weight: 100;
-    font-size: 30px;
+    font-size: 2vw;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+.Left span:hover{
+    filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.5));
 }
 .Right{
     display: flex;
@@ -99,12 +105,12 @@ export default {
     align-items: center;
     width: 50%;
     height: 100%;
-    border-radius: 0 20px 20px 0;
+    border-radius: 0 1vw 1vw 0;
     background-color: var(--w);
 }
 .Right span{
     color : var(--e);
-    font-size: 60px;
+    font-size: 3vw;
     font-weight: 100;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
@@ -121,24 +127,27 @@ export default {
     background: #E5E8EB;
     border: none;
     width: 70%;
-    height: 40px;
+    height: 3vw;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    margin-bottom: 15px;
-    font-size: 20px;
+    border-radius: 0.5vw;
+    margin-bottom: 1.5vw;
+    font-size: 1.5vw;
     font-weight: 100;
-    padding-left: 15px;
+    padding-left: 1.5vw;
+    outline: none;
 }
 .LogInPageSubmit{
     display: flex;
-    width: 100px;
-    height: 40px;
+    width: 8vw;
+    height: 3vw;
 
     justify-content: center;
     align-items: center;
     color: var(--g1);
+    font-size: 1.5vw;
+    font-weight: 100;
     background: var(--g5);
-    border-radius: 10px;
+    border-radius: 1vw;
 
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
