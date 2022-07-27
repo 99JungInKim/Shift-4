@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <ModalFrame></ModalFrame>
     <div class="menu" >
       <nav class="clearfix">
         <ul class="clearfix">
@@ -18,8 +19,12 @@
 </template>
 
 <script>
+import ModalFrame from './components/ModalFrame.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+    ModalFrame
+}
 }
 </script>
 
@@ -45,7 +50,7 @@ export default {
   padding : 0 auto;
 }
 nav{
-  font-size: 12pt;
+  font-size: 2vw;
   position: relative;
 }
 nav ul{
@@ -54,8 +59,8 @@ nav ul{
   width: auto;
 }
 nav a{
-  line-height: 50px;
-  height: 50px;
+  line-height: 5vw;
+  height: 2vw;
 }
 nav li a{
   box-sizing: border-box;
@@ -80,18 +85,17 @@ li{
 li a{
   color: var(--g1);
   text-align: center;
-  padding: 14.5px 16px;
+  padding: 5vw 3vw;
   text-decoration: none;
 }
 li a:hover{
-  /*color: #597812;*/
   color: var(--w);
   font-weight:normal;
   filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.5));
 }
 .menu {
-  width: 5000px;
-  height: 50px;
+  width: 100vw;
+  height: 5vw;
   text-align: center;
   max-width: 100%;
   background-position: center;
