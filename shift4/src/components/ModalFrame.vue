@@ -1,34 +1,32 @@
 <template>
   <div class="Modal">
     <div class="Overlay"></div>
-    <div class="ModalContent">
-    </div>
+    <div class="ModalContent"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ModalFrame',
-            props: {
-  }
-}
+  name: "ModalFrame",
+  props: {},
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.Modal
-.Overlay{
+.Modal .Overlay {
   width: 100%;
   height: 100%;
   position: fixed;
-  left: 0; top: 0;
+  left: 0;
+  top: 0;
   z-index: 9;
 }
-.Overlay{
+.Overlay {
   opacity: 0.5;
   background-color: var(--b);
 }
-.ModalContent{
+.ModalContent {
   position: fixed;
   top: 10%;
   left: 10%;
@@ -41,5 +39,4 @@ export default {
   opacity: 1;
 }
 </style>
-<style>
-</style>
+<style></style>
