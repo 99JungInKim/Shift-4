@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <ModalFrame></ModalFrame>
-    <div class="menu">
+    <ModalFrame v-if="isModalOn" @changeModal="changeModal"></ModalFrame>
+    <div class="menu" :class="{ '--hidden': !isMenuOn }" @mouseover="hi()" @mouseout="bye()">
       <nav class="clearfix">
         <ul class="clearfix">
           <li><router-link to="/">Home</router-link></li>
@@ -14,7 +14,7 @@
         <a id="pull" href="#"></a>
       </nav>
     </div>
-    <router-view />
+    <router-view/>
   </div>
 </template>
 
@@ -25,6 +25,31 @@ export default {
   components: {
     ModalFrame,
   },
+  data(){
+    return{
+      isModalOn:false,
+      isMenuOn:false,
+    }
+  },
+  methods:{
+    hi(){
+      this.isMenuOn=true
+    },
+    bye(){
+      this.isMenuOn=false
+    },
+    changeModal(){
+      this.isModalOn=!this.isModalOn
+    },
+  },
+  watch:{
+    $route(){
+      window.scrollTo(0,0)
+    },
+    document(){
+      alert(document.documentElement.scrollTop);
+    }
+  }
 };
 </script>
 
@@ -102,7 +127,13 @@ li a:hover {
   background-size: cover;
   background-color: var(--g9);
   color: white;
-  position: absolute;
+  position: fixed;
   z-index: 1;
+  transform: translate3d(0, 0, 0);
+  transition: 0.1s all ease-out;
+}
+
+.menu.--hidden {
+  transform: translate3d(0, -100%, 0);
 }
 </style>
