@@ -16,13 +16,13 @@
         <div class="LogInPageSubmit" @click="doWork(isLogInMod)">{{ (isLogInMod) ? msg[0] : msg[1] }}</div>
       </div>
     </div>
-  {{$store.state.User}}
+    {{ $store.state.user }}
   </div>
 </template>
 
 <script>
 import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { getDoc, doc  } from "firebase/firestore";
 import db from "@/main"
 
 export default {
@@ -46,18 +46,12 @@ export default {
     doWork(bool) {
       const auth = getAuth();
       if (bool) {//LogIn
-        alert("id : " + this.id + "\npw : " + this.pw)
         signInWithEmailAndPassword(auth, this.id, this.pw)
             .then(async (userCredential) => {
               const loginUser = userCredential.user;
-              // console.log("loginPage ", loginUser)
-              this.$store.commit('pushUser', loginUser);
-              /*TODO vuex 고쳐라 이년아 */
-              const snapShot = await getDocs(collection(db, "Member"));
-              console.log(snapShot)
-              snapShot.forEach((doc) => {
-                console.log(doc.data())
-              })
+              console.log(loginUser)
+              const snapShot = await getDoc(doc(db, "Member",'lego0520lwy@icloud.com'));
+              console.log(snapShot.data())
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -65,7 +59,6 @@ export default {
               console.log('errorCode ', errorCode, 'errorMessage ', errorMessage)
             });
       } else {//SignUp
-        alert("name : " + this.name + "\nphone : " + this.phone + "\nid : " + this.id + "\npw : " + this.pw)
         if (this.pw.length < 6) {
           alert('비밀번호는 6자리 이상 입력해야 합니다.')
         } else {

@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div id="app">
     <div class="menu" >
       <nav class="clearfix">
@@ -7,7 +7,7 @@
           <li><router-link to="/AboutUs">About Us</router-link></li>
           <li><router-link to="/Services">Services</router-link></li>
           <li><router-link to="/Portfolio">Portfolio</router-link></li>
-          <li v-if="true"><router-link to="/LogIn">Log In</router-link></li>
+          <li v-if="!$store.getters.isLogin"><router-link to="/LogIn">Log In</router-link></li>
           <li v-else><router-link to="/MyPage">My Page</router-link></li>
         </ul>
       <a id="pull" href="#"></a>
@@ -18,8 +18,25 @@
 </template>
 
 <script>
+import {db ,app} from './main'
+
+import { getAuth } from 'firebase/auth'
+import { getDoc, doc  } from "firebase/firestore";
+
 export default {
-  name: 'App'
+  name: 'App',
+  created() {
+    const auth = getAuth(app)
+    auth.onAuthStateChanged( async (user)=>{
+      console.log(user)
+      if(user){
+          const userData = await getDoc(doc(db,"Member", user.email))
+          this.$store.commit('updateUserData', userData.data())
+      }else {
+        console.log("not login")
+      }
+    })
+  }
 }
 </script>
 

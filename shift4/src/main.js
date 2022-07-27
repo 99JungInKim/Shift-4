@@ -19,13 +19,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
 
 new Vue({
   render: h => h(App),
   router,
   store:store
 }).$mount('#app')
-
-export default db

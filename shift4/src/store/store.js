@@ -5,11 +5,17 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        User: {}
+        user: 1
+    },
+    getters : {
+      isLogin(state){
+          return state.user!==1
+      }
     },
     mutations: {
-        pushUser(state, user){
-            this.state.User=user;
+        updateUserData(state, user){
+            state.user = user;
+            console.log(state.user)
         }
     }
 });
