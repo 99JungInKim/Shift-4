@@ -7,7 +7,7 @@
           <li><router-link to="/AboutUs">About Us</router-link></li>
           <li><router-link to="/Services">Services</router-link></li>
           <li><router-link to="/Portfolio">Portfolio</router-link></li>
-          <li v-if="!$store.getters.isLogin"><router-link to="/LogIn">Log In</router-link></li>
+          <li v-if="$store.getters.isLogin"><router-link to="/LogIn">Log In</router-link></li>
           <li v-else><router-link to="/MyPage">My Page</router-link></li>
         </ul>
       <a id="pull" href="#"></a>
@@ -36,6 +36,7 @@ export default {
         console.log("not login")
       }
     })
+    console.log(this.$store.getters.isLogin)
   }
 }
 </script>

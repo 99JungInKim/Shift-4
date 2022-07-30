@@ -8,28 +8,26 @@
             <img src="@/assets/icons/Login.svg"/>
           </div>
           <div class="Info">
-            <input v-if="infoEdit" @dblclick="infoEdit=!infoEdit" type="text" v-model="$store.state.user.info">
-            <p v-else @dblclick="infoEdit=!infoEdit">{{ ($store.state.user.info == null || $store.state.user.info == "") ? "자기 소개를 넣어주세요." : $store.state.user.info }}</p>
+            <input v-if="infoEdit" @dblclick="infoEdit=!infoEdit" type="text" v-model="info">
+            <p v-else @dblclick="infoEdit=!infoEdit">{{ (info == null || info == "") ? "자기 소개를 넣어주세요." : info }}</p>
           </div>
         </div>
         <div class="CardBottom">
           <div class="UserData" v-if="$store.getters.isLogin">
-            <input v-if="nameEdit" type="text" @dblclick="nameEdit=!nameEdit" v-model="$store.state.user.name">
-            <p v-else @dblclick="nameEdit=!nameEdit">{{ ($store.state.user.name == null || $store.state.user.name == "") ? "이름" : $store.state.user.name }}</p>
-            <input v-if="dutyEdit" type="text" @dblclick="dutyEdit=!dutyEdit" v-model="$store.state.user.duty">
-            <p v-else @dblclick="dutyEdit=!dutyEdit">{{ (duty == null || duty == "") ? "직책" : $store.state.user.duty }}</p>
-            <select v-if="stackEdit" type="text" @change="stackEdit=!stackEdit" v-model="$store.state.user.stack">
+            <input v-if="nameEdit" type="text" @dblclick="nameEdit=!nameEdit" v-model="name">
+            <p v-else @dblclick="nameEdit=!nameEdit">{{ (name == null || name == "") ? "이름" : name }}</p>
+            <input v-if="dutyEdit" type="text" @dblclick="dutyEdit=!dutyEdit" v-model="duty">
+            <p v-else @dblclick="dutyEdit=!dutyEdit">{{ (duty == null || duty == "") ? "직책" : duty }}</p>
+            <select v-if="stackEdit" type="text" @change="stackEdit=!stackEdit" v-model="stack">
               <option>Not A Programmer</option>
               <option>Full Stack</option>
               <option>Front End</option>
               <option>Back End</option>
             </select>
-            <p v-else @dblclick="stackEdit=!stackEdit">{{ ($store.state.user.stack == null) ? "개발 스택" : $store.state.user.stack }}</p>
+            <p v-else @dblclick="stackEdit=!stackEdit">{{ (stack == null) ? "개발 스택" : stack }}</p>
             <input v-if="githubEdit" type="text" @dblclick="githubEdit=!githubEdit" v-model="github">
-            <p v-else @dblclick="githubEdit=!githubEdit">{{ ($store.state.user.github == null || $store.state.user.github == "") ? "깃허브 계정" : github }}</p>
+            <p v-else @dblclick="githubEdit=!githubEdit">{{ (github == null || github == "") ? "깃허브 계정" : github }}</p>
           </div>
-<!--          {{ $store.state.user }}-->
-<!--          {{ userData }}-->
           <div class="Img">
             <img src="@/assets/icons/Logo.svg"/>
           </div>
@@ -40,11 +38,25 @@
 </template>
 
 <script>
+// import {doc, setDoc} from "firebase/firestore";
+// import {db} from "@/main";
+
 export default {
   name: 'MyPage',
   props: {},
-  mounted(){
-    // this.userData=this.$store.state.user
+  created() {
+    this.info = this.$store.state.user.info
+    this.name = this.$store.state.user.name
+    this.duty = this.$store.state.user.duty
+    // this.
+    this.github = this.$store.state.user.github
+    console.log(
+        'store ', this.$store.state.user,
+        'info ', this.info,
+        'name ', this.name,
+        'duty ', this.duty,
+        'github ', this.github
+    )
   },
   data() {
     return {
@@ -62,27 +74,27 @@ export default {
     }
   },
   methods: {
-    initProfile(){
-      alert(this.$store.state.user)
-      this.userData=this.$store.state.user
-      console.log('userData ', this.userData)
-    },
     changeImg() {
       alert("Change Image Method")
+      console.log(this.$store.state.user)
     },
-    changeName(){
+    changeName() {
+      // setDoc(doc(db, "Member", this.id), {
+      //   name: this.name,
+      //   phone: this.phone,
+      //   isAuth: false
+      // })
+    },
+    changeInfo() {
 
     },
-    changeInfo(){
+    changeDuty() {
 
     },
-    changeDuty(){
+    changeStack() {
 
     },
-    changeStack(){
-
-    },
-    changeGithub(){
+    changeGithub() {
 
     }
   }
