@@ -31,6 +31,7 @@
           <div class="Img">
             <img src="@/assets/icons/Logo.svg"/>
           </div>
+            {{this.$data}}
         </div>
       </div>
     </div>

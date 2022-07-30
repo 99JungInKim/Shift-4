@@ -22,7 +22,7 @@
 
 <script>
 import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
-import { setDoc, getDoc, doc  } from "firebase/firestore";
+import { setDoc, getDoc, doc } from "firebase/firestore";
 import {db} from "@/main"
 
 export default {
@@ -52,7 +52,7 @@ export default {
               console.log(loginUser)
               const snapShot = await getDoc(doc(db, "Member", this.id));
               console.log(snapShot.data())
-              alert('로그인 됨')
+              await this.$router.push('/MyPage')
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -66,7 +66,11 @@ export default {
           setDoc(doc(db, "Member", this.id), {
             name: this.name,
             phone: this.phone,
-            isAuth: false
+            isAuth: false,
+            duty:null,
+            github:null,
+            info:null,
+            stack:null
           })
           alert('관리자 접근 허용 대기')
           // createUserWithEmailAndPassword(auth, this.id, this.pw)
