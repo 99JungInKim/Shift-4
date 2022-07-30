@@ -41,6 +41,7 @@ export default {
     serviceModal(serviceId){
       alert(serviceId)
       this.serviceId=serviceId
+      this.changeModal()
     }
   },
   watch:{
