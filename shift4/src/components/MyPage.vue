@@ -8,28 +8,34 @@
             <img src="@/assets/icons/Login.svg"/>
           </div>
           <div class="Info">
-            <input v-if="infoEdit" @dblclick="infoEdit=!infoEdit" type="text" v-model="$store.state.user.info">
-            <p v-else @dblclick="infoEdit=!infoEdit">{{ ($store.state.user.info == null || $store.state.user.info == "") ? "자기 소개를 넣어주세요." : $store.state.user.info }}</p>
+            <input v-if="infoEdit" @dblclick="infoEdit=!infoEdit" type="text" v-model="user.info">
+            <p v-else @dblclick="infoEdit=!infoEdit">{{ ( user.info == null || user.info == "") ? "자기 소개를 넣어주세요." :   user.info }}</p>
           </div>
         </div>
         <div class="CardBottom">
           <div class="UserData" v-if="$store.getters.isLogin">
-            <input v-if="nameEdit" type="text" @dblclick="nameEdit=!nameEdit" v-model="$store.state.user.name">
-            <p v-else @dblclick="nameEdit=!nameEdit">{{ ($store.state.user.name == null || $store.state.user.name == "") ? "이름" : $store.state.user.name }}</p>
-            <input v-if="dutyEdit" type="text" @dblclick="dutyEdit=!dutyEdit" v-model="$store.state.user.duty">
-            <p v-else @dblclick="dutyEdit=!dutyEdit">{{ (duty == null || duty == "") ? "직책" : $store.state.user.duty }}</p>
-            <select v-if="stackEdit" type="text" @change="stackEdit=!stackEdit" v-model="$store.state.user.stack">
-              <option>Not A Programmer</option>
-              <option>Full Stack</option>
-              <option>Front End</option>
-              <option>Back End</option>
-            </select>
-            <p v-else @dblclick="stackEdit=!stackEdit">{{ ($store.state.user.stack == null) ? "개발 스택" : $store.state.user.stack }}</p>
-            <input v-if="githubEdit" type="text" @dblclick="githubEdit=!githubEdit" v-model="github">
-            <p v-else @dblclick="githubEdit=!githubEdit">{{ ($store.state.user.github == null || $store.state.user.github == "") ? "깃허브 계정" : github }}</p>
+            <div @dblclick="edit('name')">
+              <input v-if="nameEdit" type="text" v-model="  user.name">
+              <p v-else>{{ (  user.name == null ||   user.name == "") ? "이름" :   user.name }}</p>
+            </div>
+            <div @dblclick="edit('duty')">
+              <input v-if="dutyEdit" type="text" v-model="  user.duty">
+              <p v-else >{{ (  user.duty == null ||   user.duty == "") ? "직책" :   user.duty }}</p>
+            </div>
+            <div>
+              <select v-if="stackEdit" type="text" @change="edit('stack')" v-model=" user.stack">
+                <option>Not A Programmer</option>
+                <option>Full Stack</option>
+                <option>Front End</option>
+                <option>Back End</option>
+              </select>
+              <p v-else @dblclick="edit('stack')">{{ (  user.stack == null) ? "개발 스택" :   user.stack }}</p>
+            </div>
+            <div @dblclick="edit('github')">
+              <input v-if="githubEdit" type="text" v-model="user.github">
+              <p v-else >{{ (  user.github == null ||   user.github == "") ? "깃허브 계정" :   user.github }}</p>
+            </div>
           </div>
-<!--          {{ $store.state.user }}-->
-<!--          {{ userData }}-->
           <div class="Img">
             <img src="@/assets/icons/Logo.svg"/>
           </div>
@@ -40,51 +46,49 @@
 </template>
 
 <script>
+import EventBus from '@/EventBus'
+
+import { db } from '@/main'
+import {doc, updateDoc} from 'firebase/firestore'
+
 export default {
   name: 'MyPage',
   props: {},
   mounted(){
-    // this.userData=this.$store.state.user
+    // this.userData=this.  user
+    EventBus.$on("notifyUserUpdated", (email)=>{
+      
+      this.userDoc = doc(db, "Member",email)
+      this.user = this.$store.state.user
+    })
   },
   data() {
     return {
-      info: null,
-      name: null,
-      duty: null,
-      stack: null,
-      github: null,
+      user:{},
+      userDoc:{},
       infoEdit: false,
       nameEdit: false,
       dutyEdit: false,
       stackEdit: false,
       githubEdit: false,
-      userData: {}
     }
   },
   methods: {
-    initProfile(){
-      alert(this.$store.state.user)
-      this.userData=this.$store.state.user
-      console.log('userData ', this.userData)
+    async edit(property) {
+      const edit = property + "Edit"
+      this[edit] = !this[edit]
+      console.log(this[edit])
+      if(!this[edit]){
+        console.log(this.user[property])
+        await updateDoc(this.userDoc, {
+          [property] : this.user[property]
+        })
+        EventBus.$emit('notifyUserDataUpdated')
+      }
     },
     changeImg() {
       alert("Change Image Method")
     },
-    changeName(){
-
-    },
-    changeInfo(){
-
-    },
-    changeDuty(){
-
-    },
-    changeStack(){
-
-    },
-    changeGithub(){
-
-    }
   }
 }
 </script>

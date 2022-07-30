@@ -22,21 +22,39 @@ import {db ,app} from './main'
 
 import { getAuth } from 'firebase/auth'
 import { getDoc, doc  } from "firebase/firestore";
+import EventBus from './EventBus';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      email:""
+    }
+  },
   created() {
     const auth = getAuth(app)
     auth.onAuthStateChanged( async (user)=>{
       console.log(user)
       if(user){
-          const userData = await getDoc(doc(db,"Member", user.email))
-          this.$store.commit('updateUserData', userData.data())
+        this.email = user.email
+        this.updateUser()
       }else {
         console.log("not login")
       }
     })
-  }
+
+    //listener
+    EventBus.$on('notifyUserDataUpdated', ()=>{
+      this.updateUser()
+    })
+  },
+  methods:{
+    async updateUser(){
+      const userData = await getDoc(doc(db,"Member", this.email))
+      this.$store.commit('updateUserData', userData.data())
+      EventBus.$emit("notifyUserUpdated", this.email)
+    }
+  },
 }
 </script>
 
