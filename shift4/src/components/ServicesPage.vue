@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     openService(i) {
-      alert(i);
+      this.$emit("serviceId",i)
     },
   },
 };

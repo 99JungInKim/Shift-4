@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <ModalFrame v-if="isModalOn" @changeModal="changeModal"></ModalFrame>
-    <div class="menu" :class="{ '--hidden': !isMenuOn }" @mouseover="hi()" @mouseout="bye()">
+    <ModalFrame v-if="isModalOn" @changeModal="changeModal" :serviceId="serviceId" ></ModalFrame>
+    <div class="menu" :class="{ '--hidden': !isMenuOn }" @mouseover="menuOn()" @mouseout="menuOff()">
       <nav class="clearfix">
         <ul class="clearfix">
           <li><router-link to="/">Home</router-link></li>
@@ -14,7 +14,7 @@
         <a id="pull" href="#"></a>
       </nav>
     </div>
-    <router-view/>
+    <router-view @serviceModal="serviceModal"/>
   </div>
 </template>
 
@@ -27,20 +27,21 @@ export default {
   },
   data(){
     return{
-      isModalOn:false,
+      isModalOn:true,
       isMenuOn:false,
+      changeId:null
     }
   },
   methods:{
-    hi(){
-      this.isMenuOn=true
-    },
-    bye(){
-      this.isMenuOn=false
-    },
+    menuOn(){this.isMenuOn=true},
+    menuOff(){this.isMenuOn=false},
     changeModal(){
       this.isModalOn=!this.isModalOn
     },
+    serviceModal(serviceId){
+      alert(serviceId)
+      this.serviceId=serviceId
+    }
   },
   watch:{
     $route(){

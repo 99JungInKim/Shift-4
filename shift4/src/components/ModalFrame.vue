@@ -1,14 +1,23 @@
 <template>
   <div class="Modal">
-    <div class="Overlay"></div>
-    <div class="ModalContent"></div>
+    <div class="Overlay" @click.self="modalOff"></div>
+    <div class="ModalContent">
+      {{serviceId}}
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "ModalFrame",
-  props: {},
+  props: {
+    serviceId:Number
+  },
+  methods:{
+    modalOff(){
+      this.$emit('changeModal')
+    }
+  }
 };
 </script>
 
