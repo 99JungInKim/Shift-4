@@ -17,22 +17,6 @@
     </div>
     <p>우리의 포트폴리오를 소개합니다.</p>
 
-    <div class="AboutUsCarousel">
-      <carousel-3d
-        :disable3d="true"
-        :space="365"
-        :clickable="false"
-        :controls-visible="true"
-      >
-        <slide v-for="(slide, i) in slides" :index="i" :key="i">
-          <span class="title">포트폴리오 제목</span>
-          <p>
-            You know, being a test pilot isn't always the healthiest business in
-            the world.
-          </p>
-        </slide>
-      </carousel-3d>
-    </div>
     <div class="AboutUsFooter">
       <div>
         <div class="SnsFont">sns</div>
@@ -50,14 +34,9 @@
 </template>
 
 <script>
-import { Carousel3d, Slide } from "vue-carousel-3d";
-import "animate.css";
-
 export default {
   name: "AboutUsPage",
   components: {
-    Carousel3d,
-    Slide,
   },
   props: {},
   data() {
