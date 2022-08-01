@@ -27,7 +27,7 @@ export default {
   },
   data(){
     return{
-      isModalOn:true,
+      isModalOn:false,
       isMenuOn:false,
       changeId:null
     }
