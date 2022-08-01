@@ -1,92 +1,67 @@
 <template>
-
-  <div class="Background">
+  <div class="wrapper">
+    <Flicking :options="{ moveType: 'freeScroll', bound: true }" :plugins="plugins">
+      <span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span><span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span><span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span>
+      <span class="button mr-2 is-white">...</span>
+      <span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span><span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span><span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span>
+      <span class="button mr-2 is-white">...</span>
+      <span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span><span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span><span class="button mr-2 is-white">🍎 Apple</span>
+      <span class="button mr-2 is-white">🍉 Watermelon</span>
+      <span class="button mr-2 is-white">🥝 Kiwi</span>
+      <span class="button mr-2 is-white">...</span>
+    </Flicking>
   </div>
 </template>
-<script src="https://unpkg.com/vue-agile"></script>
-
 <script>
+import { AutoPlay } from "@egjs/flicking-plugins";
+
+const plugins = [new AutoPlay({ duration: 2000, direction: "NEXT", stopOnHover: false })];
+import "@egjs/vue-flicking/dist/flicking.cjs"
 export default {
-  name: "ServicesPage",
   data() {
     return {
-      slides: [0, 1, 2, 3, 4],
-      myOptions: {
-        navButtons: false,
-        responsive: [
-          {
-            breakpoint: 600,
-            settings: {
-              dots: false
-            }
-          },
-
-          {
-            breakpoint: 900,
-            settings: {
-              navButtons: true,
-              dots: true,
-              infinite: false
-            }
-          }
-        ]
-      }
-    };
-  },
-  props: {},
-  components: {
-  },
-  methods: {
-    openService(i) {
-      this.$emit("serviceModal",i)
-    },
-  },
-};
+      list: [0, 1, 2, 3, 4],
+      plugins
+    }
+  }
+}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.Background {
+.wrapper {
   width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.Carousel {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.carousel-3d-container {
-  width: 100vw;
-  height: 70vh;
-}
-.carousel-3d-container figure {
-  margin: 0;
-}
-
-.carousel-3d-container figcaption {
-  position: absolute;
-  background: linear-gradient(
-    180deg,
-    var(--b) 10%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  color: #fff;
-  top: 0;
-  position: absolute;
-  top: 0;
-  padding: 15px;
-  font-size: 12px;
-  min-width: 100%;
-  box-sizing: border-box;
-}
-.ServiceTitle {
-  font-weight: 100;
-  font-size: 2vw;
+@import "@egjs/vue-flicking/dist/flicking.css";
+.flicking-panel {
+    align-items: flex-end;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    height: 200px;
+    justify-content: start;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 30px 20px;
+    position: relative;
+    width: 50%;
 }
 </style>
-<style></style>

@@ -2,7 +2,6 @@
   <div class="Modal">
     <div class="Overlay" @click.self="modalOff"></div>
     <div class="ModalContent">
-      {{serviceId}}
     </div>
   </div>
 </template>
