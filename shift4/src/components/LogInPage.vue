@@ -30,7 +30,6 @@
         </div>
       </div>
     </div>
-    {{ $store.state.user }}
   </div>
 </template>
 

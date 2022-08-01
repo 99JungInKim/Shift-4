@@ -7,9 +7,9 @@
             <div @dblclick="changeImg">Change Image</div>
             <img src="@/assets/icons/Login.svg"/>
           </div>
-          <div class="Info">
-            <input v-if="infoEdit" @dblclick="infoEdit=!infoEdit" type="text" v-model="user.info">
-            <p v-else @dblclick="infoEdit=!infoEdit">{{ ( user.info == null || user.info == "") ? "자기 소개를 넣어주세요." :   user.info }}</p>
+          <div class="Info"  @dblclick="edit('info')">
+            <input v-if="infoEdit" type="text" v-model="user.info">
+            <p v-else>{{ ( user.info == null || user.info == "") ? "자기 소개를 넣어주세요." :   user.info }}</p>
           </div>
         </div>
         <div class="CardBottom">
@@ -41,6 +41,7 @@
           </div>
         </div>
       </div>
+	<button>ggg</button>
     </div>
   </div>
 </template>
