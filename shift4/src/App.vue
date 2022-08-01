@@ -43,7 +43,7 @@ export default {
 			console.log(user);
 			if (user) {
 				this.email = user.email;
-				this.updateUser();
+				await this.updateUser();
 			} else {
 				console.log('not login');
 			}

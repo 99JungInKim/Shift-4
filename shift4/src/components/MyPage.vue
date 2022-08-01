@@ -6,6 +6,7 @@
 					<div class="Img">
 						<div @dblclick="changeImg">Change Image</div>
 						<img src="@/assets/icons/Login.svg" />
+            <img :src=test />
 					</div>
 					<div class="Info">
 						<input
@@ -91,7 +92,6 @@
 					<div class="Img">
 						<img src="@/assets/icons/Logo.svg" />
 					</div>
-					{{ this.$data }}
 				</div>
 			</div>
 		</div>
@@ -103,6 +103,7 @@ import EventBus from '@/EventBus';
 
 import { db } from '@/main';
 import { doc, updateDoc } from 'firebase/firestore';
+import { getStorage, ref } from "firebase/storage";
 
 export default {
 	name: 'MyPage',
@@ -123,6 +124,7 @@ export default {
 			dutyEdit: false,
 			stackEdit: false,
 			githubEdit: false,
+      test: '',
 		};
 	},
 	methods: {
@@ -140,7 +142,10 @@ export default {
 		},
 		changeImg() {
 			alert('Change Image Method');
-			console.log(this.$store.state.user);
+      const storage = getStorage();
+      const test = ref(storage, "/test/test.png");
+      this.test = test
+      console.log('test ', this.test)
 		},
 	},
 };
