@@ -9,7 +9,7 @@
         <span>{{ (isLogInMod) ? msg[0] : msg[1] }}</span>
         <div class="inputArea">
           <input type="text" placeholder="ID" v-model="id">
-          <input type="password" placeholder="PW" v-model="pw">
+          <input type="password" placeholder="PW" v-model="pw" @keyup.enter="doWork(isLoginMod)">
           <input v-if="!isLogInMod" type="text" placeholder="NAME" v-model="name">
           <input v-if="!isLogInMod" type="number" placeholder="PHONE" v-model="phone">
         </div>
