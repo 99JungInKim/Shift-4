@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div id="app">
     <ModalFrame v-if="isModalOn" @changeModal="changeModal" :serviceId="serviceId" ></ModalFrame>
     <div class="menu" :class="{ '--hidden': !isMenuOn }" @mouseover="menuOn()" @mouseout="menuOff()">
@@ -8,7 +8,7 @@
           <li><router-link to="/AboutUs">About Us</router-link></li>
           <li><router-link to="/Services">Services</router-link></li>
           <li><router-link to="/Portfolio">Portfolio</router-link></li>
-          <li v-if="true"><router-link to="/LogIn">Log In</router-link></li>
+          <li v-if="!$store.getters.isLogin"><router-link to="/LogIn">Log In</router-link></li>
           <li v-else><router-link to="/MyPage">My Page</router-link></li>
         </ul>
         <a id="pull" href="#"></a>
@@ -20,6 +20,11 @@
 
 <script>
 import ModalFrame from "./components/ModalFrame.vue";
+import {db ,app} from './main'
+
+import { getAuth } from 'firebase/auth'
+import { getDoc, doc  } from "firebase/firestore";
+import EventBus from './EventBus';
 export default {
   name: "App",
   components: {
@@ -27,10 +32,29 @@ export default {
   },
   data(){
     return{
+
+      email:"",
       isModalOn:true,
       isMenuOn:false,
       changeId:null
     }
+  },
+  created() {
+    const auth = getAuth(app)
+    auth.onAuthStateChanged( async (user)=>{
+      console.log(user)
+      if(user){
+        this.email = user.email
+        this.updateUser()
+      }else {
+        console.log("not login")
+      }
+    })
+
+    //listener
+    EventBus.$on('notifyUserDataUpdated', ()=>{
+      this.updateUser()
+    })
   },
   methods:{
     menuOn(){this.isMenuOn=true},
@@ -42,6 +66,12 @@ export default {
       alert(serviceId)
       this.serviceId=serviceId
       this.changeModal()
+    },
+
+    async updateUser(){
+      const userData = await getDoc(doc(db,"Member", this.email))
+      this.$store.commit('updateUserData', userData.data())
+      EventBus.$emit("notifyUserUpdated", this.email)
     }
   },
   watch:{
