@@ -1,102 +1,153 @@
 <template>
-  <div class="Background">
-    <div class="Card">
-      <div class="CardOuter">
-        <div class="CardTop">
-          <div class="Img">
-            <div @dblclick="changeImg">Change Image</div>
-            <img src="@/assets/icons/Login.svg" />
-          </div>
-          <div class="Info">
-            <input
-              v-if="infoEdit"
-              @dblclick="infoEdit = !infoEdit"
-              type="text"
-              v-model="info"
-            />
-            <p v-else @dblclick="infoEdit = !infoEdit">
-              {{
-                info == null || info == "" ? "자기 소개를 넣어주세요." : info
-              }}
-            </p>
-          </div>
-        </div>
-        <div class="CardBottom">
-          <div class="UserData">
-            <input
-              v-if="nameEdit"
-              type="text"
-              @dblclick="nameEdit = !nameEdit"
-              v-model="name"
-            />
-            <p v-else @dblclick="nameEdit = !nameEdit">
-              {{ name == null || name == "" ? "이름" : name }}
-            </p>
-            <input
-              v-if="dutyEdit"
-              type="text"
-              @dblclick="dutyEdit = !dutyEdit"
-              v-model="duty"
-            />
-            <p v-else @dblclick="dutyEdit = !dutyEdit">
-              {{ duty == null || duty == "" ? "직책" : duty }}
-            </p>
-            <select
-              v-if="stackEdit"
-              type="text"
-              @change="stackEdit = !stackEdit"
-              v-model="stack"
-            >
-              <option>Not A Programmer</option>
-              <option>Full Stack</option>
-              <option>Front End</option>
-              <option>Back End</option>
-            </select>
-            <p v-else @dblclick="stackEdit = !stackEdit">
-              {{ stack == null ? "개발 스택" : stack }}
-            </p>
-            <input
-              v-if="githubEdit"
-              type="text"
-              @dblclick="githubEdit = !githubEdit"
-              v-model="github"
-            />
-            <p v-else @dblclick="githubEdit = !githubEdit">
-              {{ github == null || github == "" ? "깃허브 계정" : github }}
-            </p>
-          </div>
-          <div class="Img">
-            <img src="@/assets/icons/Logo.svg" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="Background">
+		<div class="Card">
+			<div class="CardOuter">
+				<div class="CardTop">
+					<div class="Img">
+						<div @dblclick="changeImg">Change Image</div>
+						<img src="@/assets/icons/Login.svg" />
+            <img :src=test />
+					</div>
+					<div class="Info">
+						<input
+							v-if="infoEdit"
+							@dblclick="infoEdit = !infoEdit"
+							type="text"
+							v-model="user.info"
+						/>
+						<p v-else @dblclick="infoEdit = !infoEdit">
+							{{
+								user.info == null || user.info == ''
+									? '자기 소개를 넣어주세요.'
+									: user.info
+							}}
+						</p>
+					</div>
+				</div>
+				<div class="CardBottom">
+					<div class="UserData" v-if="$store.getters.isLogin">
+						<div @dblclick="edit('name')">
+							<input
+								v-if="nameEdit"
+								type="text"
+								v-model="user.name"
+							/>
+							<p v-else>
+								{{
+									user.name == null || user.name == ''
+										? '이름'
+										: user.name
+								}}
+							</p>
+						</div>
+						<div @dblclick="edit('duty')">
+							<input
+								v-if="dutyEdit"
+								type="text"
+								v-model="user.duty"
+							/>
+							<p v-else>
+								{{
+									user.duty == null || user.duty == ''
+										? '직책'
+										: user.duty
+								}}
+							</p>
+						</div>
+						<div>
+							<select
+								v-if="stackEdit"
+								type="text"
+								@change="edit('stack')"
+								v-model="user.stack"
+							>
+								<option>Not A Programmer</option>
+								<option>Full Stack</option>
+								<option>Front End</option>
+								<option>Back End</option>
+							</select>
+							<p v-else @dblclick="edit('stack')">
+								{{
+									user.stack == null
+										? '개발 스택'
+										: user.stack
+								}}
+							</p>
+						</div>
+						<div @dblclick="edit('github')">
+							<input
+								v-if="githubEdit"
+								type="text"
+								v-model="user.github"
+							/>
+							<p v-else>
+								{{
+									user.github == null || user.github == ''
+										? '깃허브 계정'
+										: user.github
+								}}
+							</p>
+						</div>
+					</div>
+					<div class="Img">
+						<img src="@/assets/icons/Logo.svg" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
+import EventBus from '@/EventBus';
+
+import { db } from '@/main';
+import { doc, updateDoc } from 'firebase/firestore';
+import { getStorage, ref } from "firebase/storage";
+
 export default {
-  name: "MyPage",
-  props: {},
-  data() {
-    return {
-      info: null,
-      name: null,
-      duty: null,
-      stack: null,
-      github: null,
-      infoEdit: false,
-      nameEdit: false,
-      dutyEdit: false,
-      stackEdit: false,
-      githubEdit: false,
-    };
-  },
-  methods: {
-    changeImg() {
-      alert("Change Image Method");
-    },
-  },
+	name: 'MyPage',
+	props: {},
+	mounted() {
+		// this.userData=this.  user
+		EventBus.$on('notifyUserUpdated', (email) => {
+			this.userDoc = doc(db, 'Member', email);
+			this.user = this.$store.state.user;
+		});
+	},
+	data() {
+		return {
+			user: {},
+			userDoc: {},
+			infoEdit: false,
+			nameEdit: false,
+			dutyEdit: false,
+			stackEdit: false,
+			githubEdit: false,
+      test: '',
+		};
+	},
+	methods: {
+		async edit(property) {
+			const edit = property + 'Edit';
+			this[edit] = !this[edit];
+			console.log(this[edit]);
+			if (!this[edit]) {
+				console.log(this.user[property]);
+				await updateDoc(this.userDoc, {
+					[property]: this.user[property],
+				});
+				EventBus.$emit('notifyUserDataUpdated');
+			}
+		},
+		changeImg() {
+			alert('Change Image Method');
+      const storage = getStorage();
+      const test = ref(storage, "/test/test.png");
+      this.test = test
+      console.log('test ', this.test)
+		},
+	},
 };
 </script>
 
@@ -211,17 +262,18 @@ input {
 input:focus{
     outline: none !important;
 }
-select{
-    text-align: center;
-    border: 0;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    color: var(--g9);
-    background-color: var(--g1);
-    font-weight: 100;
-    font-size: 1.5vw;
-    border-radius: 0.5vw;
-    outline: none;
+
+select {
+	text-align: center;
+	border: 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	color: var(--g9);
+	background-color: var(--g1);
+	font-weight: 100;
+	font-size: 1.5vw;
+	border-radius: 0.5vw;
+	outline: none;
 }
 </style>

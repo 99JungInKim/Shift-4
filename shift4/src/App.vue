@@ -20,6 +20,11 @@
 
 <script>
 import ModalFrame from "./components/ModalFrame.vue";
+import { db, app } from './main';
+
+import { getAuth } from 'firebase/auth';
+import { getDoc, doc } from 'firebase/firestore';
+import EventBus from './EventBus';
 export default {
   name: "App",
   components: {
@@ -27,12 +32,34 @@ export default {
   },
   data(){
     return{
+		email: '',
       isModalOn:true,
       isMenuOn:false,
       changeId:null
     }
   },
+  created(){
+	const auth = getAuth(app);
+		auth.onAuthStateChanged(async (user) => {
+			console.log(user);
+			if (user) {
+				this.email = user.email;
+				await this.updateUser();
+			} else {
+				console.log('not login');
+			}
+		});
+		//listener
+		EventBus.$on('notifyUserDataUpdated', () => {
+			this.updateUser();
+		});
+  },
   methods:{
+	async updateUser() {
+			const userData = await getDoc(doc(db, 'Member', this.email));
+			this.$store.commit('updateUserData', userData.data());
+			EventBus.$emit('notifyUserUpdated', this.email);
+		},
     menuOn(){this.isMenuOn=true},
     menuOff(){this.isMenuOn=false},
     changeModal(){
@@ -52,9 +79,8 @@ export default {
       alert(document.documentElement.scrollTop);
     }
   }
-};
+}
 </script>
-
 <style>
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap");
 :root {

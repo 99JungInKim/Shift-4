@@ -16,9 +16,11 @@
     "hooper": "^0.3.4",
     "install": "^0.13.0",
     "npm": "^8.15.1",
+    "firebase": "^9.9.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.3",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vuex-persistedstate": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
