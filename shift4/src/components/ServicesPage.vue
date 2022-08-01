@@ -1,23 +1,28 @@
 <template>
   <div class="Background">
     <Flicking :options="options" :plugins="plugins">
-      <div v-for="(service, i) in services" :key="i" class="plugins-panel">
+      <div v-for="(service, i) in services" :key="i" class="panel">
       </div>
+    <div slot="viewport" class="flicking-pagination"></div>
   <span slot="viewport" class="flicking-arrow-prev"></span>
   <span slot="viewport" class="flicking-arrow-next"></span>
     </Flicking>
   </div>
 </template>
 <script>
-import { AutoPlay, Arrow, Fade } from "@egjs/flicking-plugins";
-const plugins = [new Arrow(), new AutoPlay({ duration: 2000, direction: "NEXT", stopOnHover: true }), new Fade()];
+import { Panel } from "@egjs/flicking";
+import { AutoPlay, Arrow, Fade, Pagination } from "@egjs/flicking-plugins";
+const plugins = [new Arrow(), new AutoPlay({ duration: 2000, direction: "NEXT", stopOnHover: true }), new Fade(), new Pagination({ type: "bullet" })];
 export default {
+  name:"ServicesPage",
   data() {
     return {
       services: [0, 1, 2, 3, 4],
       plugins,
       Arrow,
       Fade,
+      Panel,
+      Pagination,
       options:{
         renderOnlyVisible: true,
         circular:true,
@@ -40,7 +45,7 @@ export default {
   justify-content: center;
   overflow: hidden;
 }
-.plugins-panel{
+.panel{
   display: inline-block;
   background: var(--e);
   width: 70vw;
