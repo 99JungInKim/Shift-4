@@ -6,6 +6,7 @@ import "@egjs/flicking-plugins/dist/flicking-plugins.css";
 import { initializeApp } from "firebase/app"
 import { store } from "./store/store"
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 Vue.config.productionTip = false;
 
 Vue.use(Flicking);
@@ -26,7 +27,7 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
-
+export const storage = getStorage(app);
 new Vue({
   render: h => h(App),
   router,

@@ -65,7 +65,7 @@ export default {
               const loginUser = userCredential.user;
               console.log(loginUser)
               const snapShot = await getDoc(doc(db, "Member", this.id));
-              console.log(snapShot.data())
+              this.$store.commit("updateUserData",snapShot);
               await this.$router.push('/MyPage')
             })
             .catch((error) => {
