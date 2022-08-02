@@ -1,6 +1,11 @@
 <template>
   <div class="Background">
-    <Flicking :options="options" :plugins="plugins">
+    <Flicking :options="options" :plugins="plugins"
+    :viewportTag="'div'"
+    :cameraTag="'div'"
+    @need-panel="e => {
+      // ADD PANELS
+    }">
       <div v-for="(service, i) in services" :key="i" class="panel">
       </div>
     <div slot="viewport" class="flicking-pagination"></div>
@@ -10,7 +15,6 @@
   </div>
 </template>
 <script>
-import { Panel } from "@egjs/flicking";
 import { AutoPlay, Arrow, Fade, Pagination } from "@egjs/flicking-plugins";
 const plugins = [new Arrow(), new AutoPlay({ duration: 2000, direction: "NEXT", stopOnHover: true }), new Fade(), new Pagination({ type: "bullet" })];
 export default {
@@ -21,7 +25,6 @@ export default {
       plugins,
       Arrow,
       Fade,
-      Panel,
       Pagination,
       options:{
         renderOnlyVisible: true,
