@@ -1,12 +1,19 @@
 <template>
   <div class="Background">
-    <Flicking :options="options" :plugins="plugins"
+    <Flicking 
+    :options="{ circular: true, moveType: 'freeScroll' }"
     :viewportTag="'div'"
     :cameraTag="'div'"
+    :plugins="plugins"
     @need-panel="e => {
       // ADD PANELS
     }">
-      <div v-for="(service, i) in services" :key="i" class="panel">
+      <div v-for="(service, i) in services" :key="i" class="Service" @dblclick="serviceModal(service)">
+        <div class="ServiceTitle">TestTitle</div>
+        <div class="ServiceInfo">
+          <div class="Partner">Partner : </div>
+          <div class="Information">이 프로젝트의 정보를 여기다가 간략히</div>
+        </div>
       </div>
     <div slot="viewport" class="flicking-pagination"></div>
   <span slot="viewport" class="flicking-arrow-prev"></span>
@@ -15,22 +22,23 @@
   </div>
 </template>
 <script>
-import { AutoPlay, Arrow, Fade, Pagination } from "@egjs/flicking-plugins";
-const plugins = [new Arrow(), new AutoPlay({ duration: 2000, direction: "NEXT", stopOnHover: true }), new Fade(), new Pagination({ type: "bullet" })];
+import { AutoPlay, Fade, Arrow} from "@egjs/flicking-plugins";
 export default {
   name:"ServicesPage",
   data() {
     return {
       services: [0, 1, 2, 3, 4],
-      plugins,
-      Arrow,
-      Fade,
-      Pagination,
+      plugins : [new Fade(), new AutoPlay(2000, "NEXT"), new Arrow()],
       options:{
         renderOnlyVisible: true,
         circular:true,
         bounce: 0, bound: true, nested: true
       }
+    }
+  },
+  methods:{
+    serviceModal(value){
+      this.$emit('serviceModal',value);
     }
   }
 }
@@ -48,13 +56,54 @@ export default {
   justify-content: center;
   overflow: hidden;
 }
-.panel{
-  display: inline-block;
-  background: var(--e);
-  width: 70vw;
-  height: 20vw;
+.Service{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-content: center;
+  width: 80vw;
+  height: 40vw;
   margin-left: 10px;
   margin-right: 10px;
+  border-radius: 1vw;
+  background-image: url('@/assets/backgrounds/wbg.jpeg');
+}
+.ServiceTitle{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  height: 10%;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 1vw 1vw 0 0;
+  backdrop-filter: blur(10px);
+  color: var(--g1);
+  font-weight: 100;
+  font-size: 2.5vw;
+}
+.ServiceInfo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 30%;
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 0 0 1vw 1vw;
+  backdrop-filter: blur(10px);
+  color: var(--g1);
+  font-weight: 100;
+  font-size: 1.5vw;
+}
+.ServiceInfo .Partner{
+  width:90%;
+  height:30%;
+  background-color:aquamarine
+}
+.ServiceInfo .Information{
+  width:90%;
+  height:70%;
+  background-color:var(--e);
 }
 .flicking-arrow-prev::before,
 .flicking-arrow-prev::after,
@@ -64,6 +113,6 @@ export default {
   width: 24px;
   height: 6px;
   position: absolute;
-  background-color: var(--g1);
+  background-color: var(--e);
 }
 </style>

@@ -6,6 +6,7 @@ import PortfolioPage from '../components/PortfolioPage.vue'
 import ServicesPage from '../components/ServicesPage.vue'
 import LogInPage from '../components/LogInPage.vue'
 import MyPage from '../components/MyPage.vue'
+import TestPage from '@/components/TestPage.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes=[
         name:"MyPage",
         component:MyPage
     },
+    {
+        path:"/Test",
+        name:"Test",
+        component:TestPage
+    }
 ]
 const router = new VueRouter({
     mode:"history",

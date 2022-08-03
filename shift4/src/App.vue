@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <ModalFrame v-if="isModalOn" @changeModal="changeModal" :serviceId="serviceId" ></ModalFrame>
+    <ModalFrame v-if="isModalOn" @changeModal="changeModal" :service="service" ></ModalFrame>
     <div class="menu" :class="{ '--hidden': !isMenuOn }" @mouseover="menuOn()" @mouseout="menuOff()">
       <nav class="clearfix">
         <ul class="clearfix">
@@ -35,7 +35,8 @@ export default {
 		email: '',
       isModalOn:true,
       isMenuOn:false,
-      changeId:null
+      changeId:null,
+      service:{}
     }
   },
   created(){
@@ -65,9 +66,9 @@ export default {
     changeModal(){
       this.isModalOn=!this.isModalOn
     },
-    serviceModal(serviceId){
-      alert(serviceId)
-      this.serviceId=serviceId
+    serviceModal(service){
+      alert(service)
+      this.service=service
       this.changeModal()
     }
   },

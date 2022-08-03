@@ -13,13 +13,14 @@
     <div>CONTENTS OF PANEL 2</div>
   </flicking>
 </template>
-<script lang>
-import { Component, Vue } from "vue-property-decorator";
+<script>
 import { Fade, AutoPlay } from "@egjs/flicking-plugins";
-
-@Component({})
-
-export default class TestPage extends Vue {
-  plugins = [new Fade(), new AutoPlay(2000, "NEXT")];
+export default {
+  name:"TestPage",
+  data() {
+    return {
+  plugins : [new Fade(), new AutoPlay(2000, "NEXT")],
+    }
+  }
 }
 </script>
