@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <ModalFrame v-if="isModalOn" @changeModal="changeModal" :serviceId="serviceId" ></ModalFrame>
+    <FileSystemFrame v-if="fSModalOn" @changeFSModal="FSModal"/>
     <div class="menu" :class="{ '--hidden': !isMenuOn }" @mouseover="menuOn()" @mouseout="menuOff()">
       <nav class="clearfix">
         <ul class="clearfix">
@@ -14,22 +15,25 @@
         <a id="pull" href="#"></a>
       </nav>
     </div>
-    <router-view @serviceModal="serviceModal"/>
+    <router-view @serviceModal="serviceModal" @changeFSModal="FSModal" />
   </div>
 </template>
 
 <script>
 import ModalFrame from "./components/ModalFrame.vue";
+import FileSystemFrame from "./components/FileSystemFrame.vue";
 export default {
   name: "App",
   components: {
     ModalFrame,
+    FileSystemFrame,
   },
   data(){
     return{
       isModalOn:false,
       isMenuOn:false,
-      changeId:null
+      changeId:null,
+      fSModalOn: true,
     }
   },
   methods:{
@@ -42,6 +46,10 @@ export default {
       alert(serviceId)
       this.serviceId=serviceId
       this.changeModal()
+    },
+    FSModal(){
+      console.log("change FS")
+      this.fSModalOn=!this.fSModalOn
     }
   },
   watch:{

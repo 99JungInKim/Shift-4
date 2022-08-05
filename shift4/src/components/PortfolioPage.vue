@@ -1,11 +1,6 @@
 <template>
   <div class="PortfolioPageWrap">
-    <file-system-frame 
-      v-if="frameToggled" 
-      :toggled="frameToggled"
-      @close="toggleFrame"
-    />
-    <div class="GotoPortfolioWrap" @click="toggleFrame">
+    <div class="GotoPortfolioWrap" @click="openFrame">
       <img 
         class="GotoPortfolio"
         src="https://via.placeholder.com/384x334" 
@@ -16,23 +11,18 @@
 </template>
 
 <script>
-import FileSystemFrame from "./FileSystemFrame.vue";
 export default {
   name: 'PortfolioPage',
-  components: { FileSystemFrame },
-  props: {
-
-  },
+  props: {},
   data() {
     return {
-      frameToggled: false
+      
     }
   },
   methods: {
-    toggleFrame() {
-      let state = !this.frameToggled
-      this.frameToggled = state
-      console.log(this.frameToggled)
+    openFrame() {
+      console.log("open")
+      this.$emit('changeFSModal');
     }
   }
 }
