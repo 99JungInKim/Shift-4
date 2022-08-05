@@ -5,7 +5,8 @@
         <div class="CardTop">
           <div class="Img">
             <div @dblclick="changeImg">Change Image</div>
-            <img src="@/assets/icons/Login.svg"/>
+            <img v-if="imgEdit" :src="test" />
+            <img v-else src="@/assets/icons/Login.svg"/>
           </div>
           <div class="Info"  @dblclick="edit('info')">
             <input v-if="infoEdit" type="text" v-model="user.info">
@@ -42,14 +43,15 @@
         </div>
       </div>
 	<button>ggg</button>
+      <input type="file">
     </div>
   </div>
 </template>
 
 <script>
 import EventBus from '@/EventBus'
-
-import { db } from '@/main'
+import { ref } from "firebase/storage";
+import { db, storage } from '@/main'
 import {doc, updateDoc} from 'firebase/firestore'
 
 export default {
@@ -72,6 +74,8 @@ export default {
       dutyEdit: false,
       stackEdit: false,
       githubEdit: false,
+      imgEdit: false,
+      test:'',
     }
   },
   methods: {
@@ -88,7 +92,10 @@ export default {
       }
     },
     changeImg() {
-      alert("Change Image Method")
+      alert('test')
+      const img = ref(storage, "/net6825@naver.com/test.png")
+      console.log('img.name ', img.name, ' img.fullPath ', img.fullPath, ' img.bucket ',img.bucket, ' img ', img)
+      this.imgEdit= !this.imgEdit
     },
   }
 }

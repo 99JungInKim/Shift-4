@@ -2,7 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import Flicking from "@egjs/vue-flicking";
-
+import { getStorage } from "firebase/storage";
 import { initializeApp } from "firebase/app"
 import { store } from "./store/store"
 import { getFirestore } from "firebase/firestore";
@@ -25,6 +25,7 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const storage = getStorage(app);
 
 new Vue({
   render: h => h(App),

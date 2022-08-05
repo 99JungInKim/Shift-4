@@ -1,6 +1,6 @@
   <template>
   <div id="app">
-    <ModalFrame v-if="isModalOn" @changeModal="changeModal" :serviceId="serviceId" ></ModalFrame>
+    <ModalFrame v-if="isModalOn=false" @changeModal="changeModal" :serviceId="serviceId" ></ModalFrame>
     <div class="menu" :class="{ '--hidden': !isMenuOn }" @mouseover="menuOn()" @mouseout="menuOff()">
       <nav class="clearfix">
         <ul class="clearfix">
