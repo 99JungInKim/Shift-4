@@ -34,9 +34,9 @@
 </template>
 
 <script>
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import { getDoc, doc  } from "firebase/firestore";
-import db from "@/main"
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import { setDoc, getDoc, doc } from "firebase/firestore";
+import {db} from "@/main"
 
 export default {
   name: "LogInPage",
@@ -63,8 +63,9 @@ export default {
             .then(async (userCredential) => {
               const loginUser = userCredential.user;
               console.log(loginUser)
-              const snapShot = await getDoc(doc(db, "Member",'lego0520lwy@icloud.com'));
-              console.log(snapShot.data())
+              const snapShot = await getDoc(doc(db, "Member", this.id));
+              this.$store.commit("updateUserData",snapShot);
+              await this.$router.push('/MyPage')
             })
             .catch((error) => {
               const errorCode = error.code;
@@ -75,20 +76,30 @@ export default {
         if (this.pw.length < 6) {
           alert('비밀번호는 6자리 이상 입력해야 합니다.')
         } else {
-          createUserWithEmailAndPassword(auth, this.id, this.pw)
-              .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log('user ', user);
-                // insert DB
-                // 회원가입이 바로 되면 안되고 DB에 먼저 넣고 수락했을 때 회원가입이 되어야 하고, DB에 관리자 추가하고,
-                // 관리자는 관리자만 줄 수 있게
-              })
-              .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log('errorCode ', errorCode, 'errorMessage ', errorMessage)
-              });
+          setDoc(doc(db, "Member", this.id), {
+            name: this.name,
+            phone: this.phone,
+            isAuth: false,
+            duty:null,
+            github:null,
+            info:null,
+            stack:null
+          })
+          alert('관리자 접근 허용 대기')
+          // createUserWithEmailAndPassword(auth, this.id, this.pw)
+          //     .then((userCredential) => {
+          //       // Signed in
+          //       const user = userCredential.user;
+          //       console.log('user ', user);
+          //       // insert DB
+          //       // 회원가입이 바로 되면 안되고 DB에 먼저 넣고 수락했을 때 회원가입이 되어야 하고, DB에 관리자 추가하고,
+          //       // 관리자는 관리자만 줄 수 있게
+          //     })
+          //     .catch((error) => {
+          //       const errorCode = error.code;
+          //       const errorMessage = error.message;
+          //       console.log('errorCode ', errorCode, 'errorMessage ', errorMessage)
+          //     });
         }
       }
     }

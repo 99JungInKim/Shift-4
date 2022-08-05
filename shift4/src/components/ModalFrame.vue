@@ -10,7 +10,7 @@
 export default {
   name: "ModalFrame",
   props: {
-    serviceId:Number
+    service:Number
   },
   methods:{
     modalOff(){

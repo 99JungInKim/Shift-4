@@ -1,104 +1,212 @@
 <template>
-  <div class="Background">
-    <div class="Card">
-      <div class="CardOuter">
-        <div class="CardTop">
-          <div class="Img">
-            <div @dblclick="changeImg">Change Image</div>
-            <img v-if="imgEdit" :src="test" />
-            <img v-else src="@/assets/icons/Login.svg"/>
-          </div>
-          <div class="Info"  @dblclick="edit('info')">
-            <input v-if="infoEdit" type="text" v-model="user.info">
-            <p v-else>{{ ( user.info == null || user.info == "") ? "자기 소개를 넣어주세요." :   user.info }}</p>
-          </div>
-        </div>
-        <div class="CardBottom">
-          <div class="UserData" v-if="$store.getters.isLogin">
-            <div @dblclick="edit('name')">
-              <input v-if="nameEdit" type="text" v-model="  user.name">
-              <p v-else>{{ (  user.name == null ||   user.name == "") ? "이름" :   user.name }}</p>
-            </div>
-            <div @dblclick="edit('duty')">
-              <input v-if="dutyEdit" type="text" v-model="  user.duty">
-              <p v-else >{{ (  user.duty == null ||   user.duty == "") ? "직책" :   user.duty }}</p>
-            </div>
-            <div>
-              <select v-if="stackEdit" type="text" @change="edit('stack')" v-model=" user.stack">
-                <option>Not A Programmer</option>
-                <option>Full Stack</option>
-                <option>Front End</option>
-                <option>Back End</option>
-              </select>
-              <p v-else @dblclick="edit('stack')">{{ (  user.stack == null) ? "개발 스택" :   user.stack }}</p>
-            </div>
-            <div @dblclick="edit('github')">
-              <input v-if="githubEdit" type="text" v-model="user.github">
-              <p v-else >{{ (  user.github == null ||   user.github == "") ? "깃허브 계정" :   user.github }}</p>
-            </div>
-          </div>
-          <div class="Img">
-            <img src="@/assets/icons/Logo.svg"/>
-          </div>
-        </div>
-      </div>
-	<button>ggg</button>
-      <input type="file">
-    </div>
-  </div>
+	<div class="Background">
+		<div class="Card">
+			<div class="CardOuter">
+				<div class="CardTop">
+					<div class="Img">
+						<div @dblclick="changeImg">Change Image</div>
+						<img :src="test" />
+					</div>
+					<div class="Info">
+						<input
+							v-if="infoEdit"
+							@dblclick="infoEdit = !infoEdit"
+							type="text"
+							v-model="user.info"
+						/>
+						<p v-else @dblclick="infoEdit = !infoEdit">
+							{{
+								user.info == null || user.info == ''
+									? '자기 소개를 넣어주세요.'
+									: user.info
+							}}
+						</p>
+					</div>
+				</div>
+				<div class="CardBottom">
+					<div class="UserData" v-if="$store.getters.isLogin">
+						<div @dblclick="edit('name')">
+							<input
+								v-if="nameEdit"
+								type="text"
+								v-model="user.name"
+							/>
+							<p v-else>
+								{{
+									user.name == null || user.name == ''
+										? '이름'
+										: user.name
+								}}
+							</p>
+						</div>
+						<div @dblclick="edit('duty')">
+							<input
+								v-if="dutyEdit"
+								type="text"
+								v-model="user.duty"
+							/>
+							<p v-else>
+								{{
+									user.duty == null || user.duty == ''
+										? '직책'
+										: user.duty
+								}}
+							</p>
+						</div>
+						<div>
+							<select
+								v-if="stackEdit"
+								type="text"
+								@change="edit('stack')"
+								v-model="user.stack"
+							>
+								<option>Not A Programmer</option>
+								<option>Full Stack</option>
+								<option>Front End</option>
+								<option>Back End</option>
+							</select>
+							<p v-else @dblclick="edit('stack')">
+								{{
+									user.stack == null
+										? '개발 스택'
+										: user.stack
+								}}
+							</p>
+						</div>
+						<div @dblclick="edit('github')">
+							<input
+								v-if="githubEdit"
+								type="text"
+								v-model="user.github"
+							/>
+							<p v-else>
+								{{
+									user.github == null || user.github == ''
+										? '깃허브 계정'
+										: user.github
+								}}
+							</p>
+						</div>
+					</div>
+					<div><input type="file" id="file" ref="myFiles" class="custom-file-input" 
+  @change="previewFiles" multiple>
+						<img src="@/assets/icons/Logo.svg" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import EventBus from '@/EventBus'
-import { ref } from "firebase/storage";
-import { db, storage } from '@/main'
-import {doc, updateDoc} from 'firebase/firestore'
+import EventBus from '@/EventBus';
 
-export default {
-  name: 'MyPage',
-  props: {},
-  mounted(){
-    // this.userData=this.  user
-    EventBus.$on("notifyUserUpdated", (email)=>{
-      
-      this.userDoc = doc(db, "Member",email)
-      this.user = this.$store.state.user
-    })
-  },
-  data() {
-    return {
-      user:{},
-      userDoc:{},
-      infoEdit: false,
-      nameEdit: false,
-      dutyEdit: false,
-      stackEdit: false,
-      githubEdit: false,
-      imgEdit: false,
-      test:'',
-    }
-  },
-  methods: {
-    async edit(property) {
-      const edit = property + "Edit"
-      this[edit] = !this[edit]
-      console.log(this[edit])
-      if(!this[edit]){
-        console.log(this.user[property])
-        await updateDoc(this.userDoc, {
-          [property] : this.user[property]
-        })
-        EventBus.$emit('notifyUserDataUpdated')
-      }
-    },
-    changeImg() {
-      alert('test')
-      const img = ref(storage, "/net6825@naver.com/test.png")
-      console.log('img.name ', img.name, ' img.fullPath ', img.fullPath, ' img.bucket ',img.bucket, ' img ', img)
-      this.imgEdit= !this.imgEdit
-    },
-  }
-}
+import { db, storage } from '@/main';
+import { doc, updateDoc } from 'firebase/firestore';
+import { ref , getDownloadURL, uploadBytesResumable} from "firebase/storage";
+
+export default { 
+	name: 'MyPage',
+	props: {},
+	mounted() {
+		// this.userData=this.  user
+		console.log("hi?");
+		EventBus.$on('notifyUserUpdated', (email) => {
+			this.userDoc = doc(db, 'Member', email);
+			this.user = this.$store.state.user;
+
+			console.log("hi???");
+		});
+	},
+	created() {
+		// this.userData=this.  user
+		console.log("hi?");
+		EventBus.$on('notifyUserUpdated', (email) => {
+			this.userDoc = doc(db, 'Member', email);
+			this.user = this.$store.state.user;
+
+			console.log("hi???");
+		});
+	},
+	data() {
+		return {
+			user: {},
+			userDoc: {},
+			infoEdit: false,
+			nameEdit: false,
+			dutyEdit: false,
+			stackEdit: false,
+			githubEdit: false,
+			test: '',
+			files: [],
+			file:null
+		};
+	},
+	methods: {
+		async edit(property) {
+			const edit = property + 'Edit';
+			this[edit] = !this[edit];
+			console.log(this[edit]);
+			if (!this[edit]) {
+				console.log(this.user[property]);
+				await updateDoc(this.userDoc, {
+					[property]: this.user[property],
+				});
+				EventBus.$emit('notifyUserDataUpdated');
+			}
+		},
+		previewFiles() {
+			this.files = this.$refs.myFiles.files
+			this.file = this.files[0]
+		},
+		changeImg() {
+			alert('Change Image Method');
+			const storageRef = ref(storage, 'net6825@naver.com/test.png');
+			const uploadTask = uploadBytesResumable(storageRef, this.file, {contentType:'image/png'});
+			uploadTask.on('state_changed',
+			(snapshot) => {
+				// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+				const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+				console.log('Upload is ' + progress + '% done');
+				switch (snapshot.state) {
+				case 'paused':
+					console.log('Upload is paused');
+					break;
+				case 'running':
+					console.log('Upload is running');
+					break;
+				}
+			},
+			(error) => {
+				// A full list of error codes is available at
+				// https://firebase.google.com/docs/storage/web/handle-errors
+				switch (error.code) {
+				case 'storage/unauthorized':
+					// User doesn't have permission to access the object
+					break;
+				case 'storage/canceled':
+					// User canceled the upload
+					break;
+
+				// ...
+
+				case 'storage/unknown':
+					// Unknown error occurred, inspect error.serverResponse
+					break;
+				}
+			},
+			() => {
+				// Upload completed successfully, now we can get the download URL
+				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+				console.log('File available at', downloadURL);
+				this.test = downloadURL
+				});
+			}
+			);
+
+		},
+	},
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -111,7 +219,6 @@ export default {
   height: 100vh;
   background: linear-gradient(var(--g5) 50%, var(--g1) 0%);
 }
-
 .Card {
   display: flex;
   flex-direction: column;
@@ -215,16 +322,16 @@ input:focus{
 }
 
 select {
-  text-align: center;
-  border: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  color: var(--g9);
-  background-color: var(--g1);
-  font-weight: 100;
-  font-size: 1.5vw;
-  border-radius: 0.5vw;
-  outline: none;
+	text-align: center;
+	border: 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	color: var(--g9);
+	background-color: var(--g1);
+	font-weight: 100;
+	font-size: 1.5vw;
+	border-radius: 0.5vw;
+	outline: none;
 }
 </style>
