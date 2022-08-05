@@ -1,8 +1,10 @@
 <template>
 	<div class="Background">
+		<drag-and-drop></drag-and-drop>
 		<div class="Card">
 			<div class="CardOuter">
 				<div class="CardTop">
+					<input type="file" class="real-upload" accept="image/*" required multiple style="display: none;">
 					<div class="Img">
 						<div @dblclick="changeImg">Change Image</div>
 						<img :src="test" />
@@ -88,8 +90,7 @@
 							</p>
 						</div>
 					</div>
-					<div><input type="file" id="file" ref="myFiles" class="custom-file-input" 
-  @change="previewFiles" multiple>
+					<div class="Img">
 						<img src="@/assets/icons/Logo.svg" />
 					</div>
 				</div>
@@ -104,7 +105,7 @@ import EventBus from '@/EventBus';
 import { db, storage } from '@/main';
 import { doc, updateDoc } from 'firebase/firestore';
 import { ref , getDownloadURL, uploadBytesResumable} from "firebase/storage";
-
+import DragAndDrop from './DragAndDropModalFrame.vue'
 export default { 
 	name: 'MyPage',
 	props: {},
@@ -161,6 +162,7 @@ export default {
 		},
 		changeImg() {
 			alert('Change Image Method');
+			document.querySelector('.')
 			const storageRef = ref(storage, 'net6825@naver.com/test.png');
 			const uploadTask = uploadBytesResumable(storageRef, this.file, {contentType:'image/png'});
 			uploadTask.on('state_changed',
@@ -206,6 +208,9 @@ export default {
 
 		},
 	},
+	components:{
+		DragAndDrop
+	}
 };
 </script>
 
@@ -230,8 +235,9 @@ export default {
   width: 56vw;
   height: 35vw;
   background-color: var(--w);
-  border-radius: 20px;
+  border-radius: 2vw;
   overflow: hidden;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 .CardTop {
   height: 17.5vw;
@@ -260,7 +266,7 @@ export default {
   font-size: 2vw;
   color: var(--g1);
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 20px 0 0 0;
+  border-radius: 2vw 0 0 0;
   opacity: 0;
 }
 .CardTop .Img div:hover {

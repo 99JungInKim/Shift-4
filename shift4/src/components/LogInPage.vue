@@ -30,7 +30,6 @@
         </div>
       </div>
     </div>
-    {{ $store.state.user }}
   </div>
 </template>
 
@@ -183,7 +182,7 @@ export default {
 .inputArea input {
   background: #e5e8eb;
   border: none;
-  width: 70%;
+  width: 20vw;
   height: 3vw;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 0.5vw;
@@ -212,13 +211,6 @@ export default {
   background: var(--e);
 }
 
-.Left span {
-  color: var(--w);
-  font-weight: 100;
-  font-size: 30px;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
-
 .Right {
   display: flex;
   flex-direction: column;
@@ -231,7 +223,7 @@ export default {
 
 .Right span {
   color: var(--e);
-  font-size: 60px;
+  font-size: 4vw;
   font-weight: 100;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
@@ -249,26 +241,25 @@ export default {
 .inputArea input {
   background: #E5E8EB;
   border: none;
-  width: 70%;
-  height: 40px;
+  width: 20vw;
+  height: 3vw;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  margin-bottom: 15px;
-  font-size: 20px;
+  border-radius: 1vw;
+  margin-bottom: 1vw;
+  font-size: 1.5vw;
   font-weight: 100;
-  padding-left: 15px;
 }
 
 .LogInPageSubmit {
   display: flex;
-  width: 100px;
-  height: 40px;
-
+  width: 10vw;
+  height: 4vw;
+  font-size : 2vw;
   justify-content: center;
   align-items: center;
   color: var(--g1);
   background: var(--g5);
-  border-radius: 10px;
+  border-radius: 1vw;
 
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
