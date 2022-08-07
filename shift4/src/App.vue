@@ -33,7 +33,7 @@ export default {
   data(){
     return{
 		email: '',
-      isModalOn:true,
+      isModalOn:false,
       isMenuOn:false,
       changeId:null,
       service:{}

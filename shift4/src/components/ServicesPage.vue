@@ -1,7 +1,7 @@
 <template>
   <div class="Background">
     <Flicking 
-    :options="{ circular: true, moveType: 'freeScroll' }"
+    :options="{ align:'center', circular: true, moveType: ['strict', { count: 1 }], bounce:'100%'}"
     :viewportTag="'div'"
     :cameraTag="'div'"
     :plugins="plugins"
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       services: [0, 1, 2, 3, 4],
-      plugins : [new Fade(), new AutoPlay(2000, "NEXT"), new Arrow()],
+      plugins : [new Fade(), new AutoPlay(4000, "NEXT"), new Arrow()],
       options:{
         renderOnlyVisible: true,
         circular:true,
