@@ -111,6 +111,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+/* https://dev.to/mandrewcito/vue-js-draggable-div-3mee */
 /* https://studiomeal.com/archives/197 */
 /* https://studiomeal.com/archives/533 */
   :root {
@@ -158,7 +159,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    margin-top: 10px;
+    margin-top: 5px;
     left: 15px;
     width: 120px;
   }
