@@ -1,12 +1,21 @@
 <template>
   <div class="FileSystemModal">
-    <div class="ModalSidebar">사이드바</div>
-    <div class="ModalContent">
-      <div class="ModalHeader">상단바</div>
-      <div class="ModalBody">
-        모달 컨텐츠
-        <button @click="closeToggled">닫기</button>
+    <div class="SidebarHeader">
+      <div class="MenuWrap">
+        <button class="CloseButton" @click="closeModal" />
+        <button class="MinimizeButton" @click="minimizeModal" />
+        <button class="MaximizeButton" @click="maximizeModal" />
       </div>
+    </div>
+    <div class="ModalHeader">상단바</div> 
+    <div class="SidebarContent">
+      <div class="MemberTitle">Member</div>
+      <div class="MemberList" v-for="el in food" :key="el">{{el}}</div>
+    </div>
+    <div class="ModalContent">
+      <div>{{browserWidth}}</div>
+      <div>{{browserHeight}}</div>
+      <div v-for="el in food" :key="el">{{el}}</div>
     </div>
   </div>
 </template>
@@ -15,10 +24,86 @@
 export default {
   name: 'FileSystemFrame',
   props: {},
+  data() {
+    return {
+      browserWidth: 1920,
+      browserHeight: 1080,
+      food: ['chicken', 'pizza', 'ramen', 'dumplings']
+    }
+  },
+  mounted() {
+    let bW = window.innerWidth || document.body.clientWidth
+    let bH = window.innerHeight || document.body.clientHeight
+
+    this.browserWidth = bW, this.browserHeight = bH
+    document.documentElement.style.setProperty("--browser-width", bW + "px")
+    document.documentElement.style.setProperty("--browser-height", bH + "px")
+    window.addEventListener('resize', this.handleBrowserResize);
+    
+    // console.log(screen.availWidth, screen.availHeight)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleBrowserResize);
+  },
   methods: {
-    closeToggled() {
+    closeModal() {
       console.log("close")
       this.$emit("changeFSModal")
+    },
+    minimizeModal() {
+      console.log("minimize")
+    },
+    maximizeModal() {
+      console.log("maximize")
+    },
+    handleBrowserResize(e) {
+      e.preventDefault();
+      let bW = window.innerWidth || document.body.clientWidth
+      let bH = window.innerHeight || document.body.clientHeight
+
+      this.browserWidth = bW, this.browserHeight = bH
+      document.documentElement.style.setProperty("--browser-width", bW + "px")
+      document.documentElement.style.setProperty("--browser-height", bH + "px")
+    },
+    dragModal(element) {
+      var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      if (document.getElementById(element.id + "header")) {
+        // if present, the header is where you move the DIV from:
+        document.getElementById(element.id + "header").onmousedown = dragMouseDown;
+      } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
+        element.onmousedown = dragMouseDown;
+      }
+
+      function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        element.style.top = (element.offsetTop - pos2) + "px";
+        element.style.left = (element.offsetLeft - pos1) + "px";
+      }
+
+      function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
     }
   }
 }
@@ -28,48 +113,131 @@ export default {
 <style scoped>
 /* https://studiomeal.com/archives/197 */
 /* https://studiomeal.com/archives/533 */
-  .FileSystemModal {
-    position: fixed;
-    display: flex;
-    left: 10vw;
-    top: 10vh;
-    margin: auto auto;
-    border-radius: 20px;
-    z-index: 10;
-    background-color: var(--g3);
-    resize: both;
-    overflow: hidden;
-    min-width: 350px;
-    min-height: 200px;
+  :root {
+    --browser-width: 1920;
+    --browser-height: 1080;
   }
 
-  .ModalSidebar {
+  @media (max-width: 1400px) {
+    .FileSystemModal {
+
+    }
+  }
+
+  .FileSystemModal {
+    position: fixed;
+    display: grid;
+    grid-template-areas: 'aside header'
+                         'aside2 content';
+    grid-template-rows: 68px minmax(617px, auto);
+    grid-template-columns: 380px minmax(auto, 825px);
+    left: 10vw;
+    top: 10vh;
+    border-radius: 20px;
+    z-index: 10;
+    background-color: var(--w); /* 나중에 바꿀거임 */
+    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.35));
+    resize: both;
+    overflow: hidden;
+    min-width: 380px;
+    min-height: 68px;
+  }
+  
+  .SidebarHeader {
+    grid-area: aside;
     position: relative;
-    width: 500px;
+    display: flex;
     background-color: var(--g5);
-    border-radius: 20px 0px 0px 20px;
+    border-radius: 20px 0px 0px 0px;
+    opacity: 0.7;
+  }
+
+  .MenuWrap {
+    position: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    left: 15px;
+    width: 120px;
+  }
+
+  .CloseButton {
+    background-color: #EC6A5E;
+    border-radius: 50%;
+    border: none;
+    width: 22px;
+    height: 22px;
+  }
+  .MinimizeButton {
+    background-color: #F4BF4E;
+    border-radius: 50%;
+    border: none;
+    width: 22px;
+    height: 22px;
+  }
+  .MaximizeButton {
+    background-color: #61C554;
+    border-radius: 50%;
+    border: none;
+    width: 22px;
+    height: 22px;
+  }
+
+  .SidebarContent {
+    grid-area: aside2;
+    position: relative;
+    display: block;
+    height: auto;
+    background-color: var(--g5);
+    border-radius: 0px 0px 0px 20px;
     /* backdrop-filter: blur(10px); */
     opacity: 0.7;
   }
 
-  .ModalContent {
+  .MemberTitle {
     position: relative;
-    display: flex;
-    width: 68.75%;
-    background-color: var(--e);
-    border-radius: 0px 20px 20px 0px;
+    left: 25px;
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 39px;
+  }
+  .MemberList {
+    position: relative;
+    left: 40px;
+    top: 5px;
+    width: 400px;
+    height: 60px;
+    font-weight: 100;
+    font-size: 40px;
+    line-height: 58px;
   }
 
   .ModalHeader {
+    grid-area: header;
     position: relative;
     display: block;
-    height: 88px;
-    background-color: var(--e);
+    width: auto;
+    top: 0px;
+    left: 0px;
+    background-color: var(--g2);
+    border-radius: 0px 20px 20px 20px;
+    z-index: 20;
+    filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.35));
   }
-  .ModalBody {
-    position: relative;
-    background-color: var(--g8);
+  .ModalContent {
+    grid-area: content;
+    /* position: relative; */
+    display: grid;
+    grid-auto-columns: minmax(100px, auto);
+    grid-auto-rows: minmax(100px, auto);
+    top: 0px;
+    left: 0px;
+    background-color: var(--w);
+    border-radius: 0px 20px 20px 0px;
   }
+  
 </style>
 <style>
 </style>
