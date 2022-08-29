@@ -13,9 +13,9 @@
       <div class="MemberList" v-for="el in food" :key="el">{{el}}</div>
     </div>
     <div class="ModalContent">
-      <div>{{browserWidth}}</div>
-      <div>{{browserHeight}}</div>
-      <div v-for="el in food" :key="el">{{el}}</div>
+      <!-- <div>{{browserWidth}}</div>
+      <div>{{browserHeight}}</div> -->
+      <div class="ContentItem" v-for="el in food" :key="el">{{el}}</div>
     </div>
   </div>
 </template>
@@ -131,7 +131,7 @@ export default {
     grid-template-areas: 'aside header'
                          'aside2 content';
     grid-template-rows: 68px minmax(617px, auto);
-    grid-template-columns: 380px minmax(auto, 825px);
+    grid-template-columns: 380px minmax(auto, auto);
     left: 10vw;
     top: 10vh;
     border-radius: 20px;
@@ -140,7 +140,7 @@ export default {
     filter: drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.35));
     resize: both;
     overflow: hidden;
-    min-width: 380px;
+    min-width: 760px;
     min-height: 68px;
   }
   
@@ -229,14 +229,19 @@ export default {
   }
   .ModalContent {
     grid-area: content;
-    /* position: relative; */
+    position: relative;
     display: grid;
+    width: auto;
+    height: auto;
     grid-auto-columns: minmax(100px, auto);
     grid-auto-rows: minmax(100px, auto);
     top: 0px;
     left: 0px;
     background-color: var(--w);
     border-radius: 0px 20px 20px 0px;
+  }
+  .ContentItem {
+    
   }
   
 </style>
