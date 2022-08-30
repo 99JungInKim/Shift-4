@@ -10,12 +10,16 @@
     <div class="ModalHeader">상단바</div> 
     <div class="SidebarContent">
       <div class="MemberTitle">Member</div>
-      <div class="MemberList" v-for="el in food" :key="el">{{el}}</div>
+      <div class="MemberList">
+        <div class="MemScrollArea">
+          <div class="MemberData" v-for="el in food" :key="el">{{el}}</div>
+        </div>
+      </div>
     </div>
     <div class="ModalContent">
       <!-- <div>{{browserWidth}}</div>
       <div>{{browserHeight}}</div> -->
-      <div class="ContentItem" v-for="el in food" :key="el">{{el}}</div>
+      <!-- <div class="ContentItem" v-for="el in food" :key="el">{{el}}</div> -->
     </div>
   </div>
 </template>
@@ -28,7 +32,7 @@ export default {
     return {
       browserWidth: 1920,
       browserHeight: 1080,
-      food: ['chicken', 'pizza', 'ramen', 'dumplings']
+      food: ['chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings']
     }
   },
   mounted() {
@@ -118,6 +122,9 @@ export default {
     --browser-width: 1920;
     --browser-height: 1080;
   }
+  ::-webkit-scrollbar {
+    /* display: none; */
+  }
 
   @media (max-width: 1400px) {
     .FileSystemModal {
@@ -190,7 +197,6 @@ export default {
     grid-area: aside2;
     position: relative;
     display: block;
-    height: auto;
     background-color: var(--g5);
     border-radius: 0px 0px 0px 20px;
     /* backdrop-filter: blur(10px); */
@@ -208,11 +214,23 @@ export default {
     position: relative;
     left: 40px;
     top: 5px;
-    width: 400px;
-    height: 60px;
+    height: auto;
     font-weight: 100;
     font-size: 40px;
     line-height: 58px;
+  }
+  .MemScrollArea {
+    position: relative;
+    display: inline-block;
+    /* width: auto; */
+    width: 300px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+  }
+  .MemberData {
+    
   }
 
   .ModalHeader {
