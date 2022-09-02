@@ -7,7 +7,7 @@
         <button class="MaximizeButton" @click="maximizeModal" />
       </div>
     </div>
-    <div class="ModalHeader">상단바</div> 
+    <div class="ModalHeader">상단바</div>
     <div class="SidebarContent">
       <div class="MemberTitle">Member</div>
       <div class="MemberList">
@@ -32,22 +32,44 @@ export default {
     return {
       browserWidth: 1920,
       browserHeight: 1080,
-      food: ['chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings', 'chicken', 'pizza', 'ramen', 'dumplings']
+      modalHeight: 0,
+      modalObserver: null,
+      food: ['chicken', 'pizza', 'ramen', 'dumplings', 
+      'chicken1', 'pizza1', 'ramen1', 'dumplings1', 
+      'chicken2', 'pizza2', 'ramen2', 'dumplings2']
     }
   },
   mounted() {
     let bW = window.innerWidth || document.body.clientWidth
     let bH = window.innerHeight || document.body.clientHeight
+    let mH = document.body.querySelector(".SidebarContent").clientHeight
+    let mElement = document.querySelector(".SidebarContent")
+    let lElement = document.querySelector(".MemScrollArea")
 
     this.browserWidth = bW, this.browserHeight = bH
     document.documentElement.style.setProperty("--browser-width", bW + "px")
     document.documentElement.style.setProperty("--browser-height", bH + "px")
     window.addEventListener('resize', this.handleBrowserResize);
+
+    this.modalHeight = mH
+    // document.documentElement.style.setProperty("--modal-height", mH + "px")
+    const modalObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        let rect = entry.contentRect;
+        console.log(rect)
+        document.documentElement.style.setProperty("--modal-height", `${rect.height}px`)
+        // document.documentElement.style.setProperty("--member-list-height", `${rect.height}px`)
+      }
+    })
+    modalObserver.observe(mElement)
+    modalObserver.observe(lElement)
+    this.modalObserver = modalObserver
     
     // console.log(screen.availWidth, screen.availHeight)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleBrowserResize);
+    this.modalObserver.disconnect();
   },
   methods: {
     closeModal() {
@@ -109,6 +131,9 @@ export default {
         document.onmousemove = null;
       }
     }
+  },
+  computed: {
+    
   }
 }
 </script>
@@ -121,6 +146,8 @@ export default {
   :root {
     --browser-width: 1920;
     --browser-height: 1080;
+    --modal-height: 0;
+    --member-list-height: 0;
   }
   ::-webkit-scrollbar {
     /* display: none; */
@@ -214,7 +241,8 @@ export default {
     position: relative;
     left: 40px;
     top: 5px;
-    height: auto;
+    /* 창 줄인만큼 같이 줄어듬 height 줄어든거 잘 받아오다가 멈춤 */
+    height: var(--member-list-height);
     font-weight: 100;
     font-size: 40px;
     line-height: 58px;
@@ -222,9 +250,10 @@ export default {
   .MemScrollArea {
     position: relative;
     display: inline-block;
-    /* width: auto; */
     width: 300px;
-    height: 500px;
+    height: var(--modal-height);
+    /* 내부 요소 크기만큼 */
+    /* max-height: var(--member-list-height); */
     overflow-y: scroll;
     overflow-x: hidden;
     
